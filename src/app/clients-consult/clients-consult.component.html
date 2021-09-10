@@ -1,8 +1,6 @@
 <div class="card">
     <div class="card-body">
         <h5 class="card-title">Client consult</h5>
-        <h6 class="card-subtitle mb-2 text-muted">Fill the form above</h6>
-        <p class="card-text">Inform client data</p>
         <hr />
         <div class="table-responsive">
             <table class="table table-hover table-striped table-responsive">
@@ -15,17 +13,18 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let item of clients">
+                    <tr *ngFor="let item of clients | paginate :{itemsPerPage : 5, currentPage: page}">
                         <td>{{item.name}}</td>
                         <td>{{item.email}}</td>
                         <td>{{item.registrationDate | date: 'MM/dd/yyyy HH:mm a'}}</td>
                         <td>
-                            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#edit-screen">
+                            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#edit-screen"
+                                (click)="getEditClient(item)">
                                 Update
                             </button>
                             &nbsp;
-                            <button class="btn btn-danger btn-sm" data-bs-toggle="modal"
-                                data-bs-target="#delete-screen">
+                            <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#delete-screen"
+                                (click)="getDeleteClient(item.clientID)">
                                 Delete
                             </button>
                         </td>
@@ -39,6 +38,12 @@
                     </tr>
                 </tfoot>
             </table>
+            <pagination-controls 
+            (pageChange)="handlePageChange($event)"
+            previouslabel="Previous page"
+            nextlabel="Next page"> 
+
+            </pagination-controls>
         </div>
     </div>
 </div>
@@ -52,14 +57,28 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="">
+                <form [formGroup]="formEdit" (ngSubmit)="onSubmit()">
+                    <!--Hidden field-->
+                    <input type="hidden" formControlName="clientID">
                     <label>Client Name</label>
-                    <input type="text" class="form-control" placeholder="eg John Wick" />
+                    <input type="text" class="form-control" formControlName="name" />
+                    <div class=" text-danger" *ngIf="form.name.touched && form.name.invalid">
+                        <span *ngIf="form.name.errors.required">Please, inform client name.</span>
+                        <span *ngIf="form.name.errors.minlength">Please, inform client name greater than 6
+                            characters.</span>
+                        <span *ngIf="form.name.errors.maxlength">Please, inform client name lower than 150
+                            characters.</span>
+                    </div>
                     <br />
                     <label>Client Email</label>
-                    <input type="text" class="form-control" placeholder="johnw@email.com" />
+                    <input type="text" class="form-control" formControlName="email" />
+                    <div class=" text-danger" *ngIf="form.email.touched && form.email.invalid">
+                        <span *ngIf="form.email.errors.required">Please, inform client email.</span>
+                        <span *ngIf="form.email.errors.email">Please, inform a valid.</span>
+                    </div>
                     <br />
-                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal"
+                        [disabled]="!formEdit.valid">Update</button>
                     &nbsp;
                     <button type="button" data-bs-dismiss="modal" class="btn btn-outline-secondary">Cancel</button>
 
@@ -69,18 +88,19 @@
     </div>
 </div>
 
-<!--Edit Modal-->
+<!--Delete Modal-->
 <div id="delete-screen" class="modal fade" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Edit Client</h5>
+                <h5 class="modal-title">Delete Client</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <p>Do you realy want to delete the client?</p>
                 <br />
-                <button type="submit" class="btn btn-primary">Save</button>
+                <button type="button" (click)="confirmDeleteClient()" data-bs-dismiss="modal"
+                    class="btn btn-danger">Confirm</button>
                 &nbsp;
                 <button type="button" data-bs-dismiss="modal" class="btn btn-outline-secondary">Cancel</button>
 

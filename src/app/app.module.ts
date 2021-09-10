@@ -16,6 +16,8 @@ import { Routes, RouterModule } from '@angular/router';
 //importing http client for integrate with API 
 import{HttpClientModule} from '@angular/common/http';
 
+//importing class to use data pagination
+import { NgxPaginationModule } from 'ngx-pagination';
 
 const routes: Routes = [
   { path: 'client-register', component: ClientsRegisterComponent },
@@ -35,7 +37,8 @@ const routes: Routes = [
     RouterModule.forRoot(routes),
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgxPaginationModule
   ],
   providers: [],
   bootstrap: [AppComponent]
