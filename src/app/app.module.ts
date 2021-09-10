@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 import { AppComponent } from './app.component';
 import { ClientsReportComponent } from './clients-report/clients-report.component';
@@ -19,7 +19,10 @@ import{HttpClientModule} from '@angular/common/http';
 //importing class to use data pagination
 import { NgxPaginationModule } from 'ngx-pagination';
 
+import { ChartModule } from 'angular-highcharts';
+
 const routes: Routes = [
+  { path: '', component: DashboardComponent },
   { path: 'client-register', component: ClientsRegisterComponent },
   { path: 'client-consult', component: ClientsConsultComponent },
   { path: 'client-report', component: ClientsReportComponent }
@@ -30,7 +33,8 @@ const routes: Routes = [
     AppComponent,
     ClientsReportComponent,
     ClientsConsultComponent,
-    ClientsRegisterComponent
+    ClientsRegisterComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
@@ -38,7 +42,8 @@ const routes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    ChartModule
   ],
   providers: [],
   bootstrap: [AppComponent]
