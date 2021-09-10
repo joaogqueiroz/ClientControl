@@ -11,9 +11,9 @@ import { ClientsRegisterComponent } from './clients-register/clients-register.co
 import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
-  {path : 'client-register', component:ClientsRegisterComponent},
-  {path : 'client-consult', component:ClientsConsultComponent},
-  {path : 'client-report', component:ClientsReportComponent}
+  { path: 'client-register', component: ClientsRegisterComponent },
+  { path: 'client-consult', component: ClientsConsultComponent },
+  { path: 'client-report', component: ClientsReportComponent }
 ];
 
 @NgModule({
