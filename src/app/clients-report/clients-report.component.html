@@ -4,20 +4,28 @@
         <h6 class="card-subtitle mb-2 text-muted">
             Select the period to generate the report</h6>
         <hr />
-        <form action="">
+        <form [formGroup] = "formReport" (ngSubmit)="onSubmit()">
             <div class="row">
                 <div class="col-md-4">
                     <label>Start date</label>
-                    <input type="date" class="form-control"/>
+                    <input type="date" formControlName='startDate' class="form-control" />
+                    <!--finishDate validation-->
+                    <div class=" text-danger" *ngIf="form.startDate.touched && form.startDate.invalid">
+                        <span *ngIf="form.startDate.errors.required">Please, inform start date.</span>
+                    </div>
                 </div>
                 <div class="col-md-4">
                     <label>Finish date</label>
-                    <input type="date" class="form-control"/>
+                    <input type="date" formControlName='finishDate' class="form-control" />
+                    <!--finishDate validation-->
+                    <div class=" text-danger" *ngIf="form.finishDate.touched && form.finishDate.invalid">
+                        <span *ngIf="form.finishDate.errors.required">Please, inform finish date.</span>
+                    </div>
                 </div>
             </div>
             <div class="row mt-3">
                 <div class="col-md-12">
-                    <button type="submit" class="btn btn-success">Generate report</button>
+                    <button type="submit" class="btn btn-success"  [disabled]="!formReport.valid">Generate report</button>
                     &nbsp;
                     <button type="button" class="btn btn-outline-secondary">Cancel</button>
                 </div>

@@ -1,23 +1,43 @@
+<div *ngIf="message" class=" alert alert-primary mb-2" role="alert">
+    <strong>{{message}}</strong>
+</div>
+
 <div class="card">
     <div class="card-body">
         <h5 class="card-title">Client Register</h5>
         <h6 class="card-subtitle mb-2 text-muted">Fill the form above</h6>
         <p class="card-text">Inform client data</p>
         <hr />
-        <form action="">
+        <form [formGroup] ="formRegister" (ngSubmit)="onSubmit()">
             <div class="row">
                 <div class="col-md-6">
                     <label>Client Name</label>
-                    <input type="text" class="form-control" placeholder="eg John Wick" />
+                    <input type="text" class="form-control" formControlName='name' placeholder="eg John Wick" />
+                    <!--Name validation-->
+                    <div class=" text-danger" *ngIf="form.name.touched && form.name.invalid">
+                        <span *ngIf="form.name.errors.required">Please, inform client name.</span>
+                        <span *ngIf="form.name.errors.minlength">Please, inform client name greater than 6 characters.</span>
+                        <span *ngIf="form.name.errors.maxlength">Please, inform client name lower than 150 characters.</span>
+
+                    </div>
+                </div>
                 </div>
                 <div class="col-md-6">
                     <label>Client Email</label>
-                    <input type="text" class="form-control" placeholder="johnw@email.com" />
-                </div>
+                    <input type="text" class="form-control" formControlName='email' placeholder="johnw@email.com" />
+                    <!--Email validation-->
+                    <div class=" text-danger" *ngIf="form.email.touched && form.email.invalid">
+                        <span *ngIf="form.email.errors.required">Please, inform client email.</span>
+                        <span *ngIf="form.email.errors.email">Please, inform a valid.</span>
+                    </div>
             </div>
             <div class="row mt-3">
                 <div class="col-md-12">
-                    <button type="submit" class="btn btn-success">Register</button>
+
+                    <button type="submit" class="btn btn-success"
+                    [disabled]="!formRegister.valid">
+                    Register
+                </button>
                     &nbsp;
                     <button type="button" class="btn btn-outline-secondary">Cancel</button>
                 </div>

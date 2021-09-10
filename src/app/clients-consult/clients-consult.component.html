@@ -4,39 +4,42 @@
         <h6 class="card-subtitle mb-2 text-muted">Fill the form above</h6>
         <p class="card-text">Inform client data</p>
         <hr />
-        <table class="table table-hover table-striped table-responsive">
-            <thead>
-                <tr>
-                    <th>Client Name</th>
-                    <th>Client Email</th>
-                    <th>Registration Date</th>
-                    <th>Operations</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Name</td>
-                    <td>Email</td>
-                    <td>Date</td>
-                    <td>
-                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#edit-screen">
-                            Update
-                        </button>
-                        &nbsp;
-                        <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#delete-screen">
-                            Delete
-                        </button>
-                    </td>
-                </tr>
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="4">
-                        Amount of registers: 0
-                    </td>
-                </tr>
-            </tfoot>
-        </table>
+        <div class="table-responsive">
+            <table class="table table-hover table-striped table-responsive">
+                <thead>
+                    <tr>
+                        <th>Client Name</th>
+                        <th>Client Email</th>
+                        <th>Registration Date</th>
+                        <th>Operations</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of clients">
+                        <td>{{item.name}}</td>
+                        <td>{{item.email}}</td>
+                        <td>{{item.registrationDate | date: 'MM/dd/yyyy HH:mm a'}}</td>
+                        <td>
+                            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#edit-screen">
+                                Update
+                            </button>
+                            &nbsp;
+                            <button class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                                data-bs-target="#delete-screen">
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="4">
+                            Amount of registers: {{clients.length}}
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
     </div>
 </div>
 

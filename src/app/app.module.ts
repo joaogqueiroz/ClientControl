@@ -7,8 +7,15 @@ import { ClientsReportComponent } from './clients-report/clients-report.componen
 import { ClientsConsultComponent } from './clients-consult/clients-consult.component';
 import { ClientsRegisterComponent } from './clients-register/clients-register.component';
 
-//importing 
+//importing forms
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+//importing routes
 import { Routes, RouterModule } from '@angular/router';
+
+//importing http client for integrate with API 
+import{HttpClientModule} from '@angular/common/http';
+
 
 const routes: Routes = [
   { path: 'client-register', component: ClientsRegisterComponent },
@@ -25,7 +32,10 @@ const routes: Routes = [
   ],
   imports: [
     BrowserModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
