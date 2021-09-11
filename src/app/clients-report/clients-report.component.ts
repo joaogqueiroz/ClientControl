@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+
 @Component({
   selector: 'app-clients-report',
   templateUrl: './clients-report.component.html',
@@ -7,7 +9,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 })
 export class ClientsReportComponent implements OnInit {
 
-  constructor() { }
+  constructor(private httpClient: HttpClient) { }
 
   ngOnInit(): void {
   }
@@ -30,6 +32,33 @@ export class ClientsReportComponent implements OnInit {
   }
 
   onSubmit(): void{
+    var startDate = this.formReport.value.startDate
+    var finishDate = this.formReport.value.finishDate
+
+    this.httpClient
+    .get("http://localhost:2706/api/Clients/ClientReport/" + startDate + "/" + finishDate,
+    {responseType:'arraybuffer'})
+    .subscribe(
+      (success) =>{
+        var archive = new Blob([success],{type:'application/pdf'});
+        var archiveName = "Client_report.pdf";
+
+      //download
+      var url = window.URL.createObjectURL(archive);
+      var downloadFile = document.createElement('a');
+      downloadFile.href = url;
+      downloadFile.download = archiveName;
+
+      document.body.appendChild(downloadFile);
+      downloadFile.click();
+      document.body.removeChild(downloadFile);
+
+
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
     console.log(this.formReport.value);
   }
 }
